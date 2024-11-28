@@ -1,0 +1,78 @@
+<?php  
+
+   class ControladorExperticia{
+
+     public function guardar($objeto, $bd){
+        $operacion = 'G';
+        
+        $sql = "call gestionarexperticias(?,?,?,?,?)";
+
+        $stmt = $bd->prepare($sql);
+
+        $stmt->bind_param("sisss",
+            $operacion,
+            $objeto->identificador,
+            $objeto->nombre,
+            $objeto->tipoIdentificacionProfesional,
+            $objeto->identificacionProfesional
+        );
+
+        $stmt->execute();
+     }
+
+     public function eliminar($objeto, $bd){
+        $operacion = 'E';
+
+        $sql = "call gestionarexperticias(?,?,null,null,null)";
+
+        $stmt = $bd->prepare($sql);
+
+        $stmt->bind_param("si",
+            $operacion,
+            $objeto->identificador
+        );
+
+        $stmt->execute();
+     }
+      
+     public function consultarRegistro($objeto, $bd){
+        $operacion = 'C';
+        
+        $sql = "call gestionarexperticias(?,?,null,null,null)";
+
+        $stmt = $bd->prepare($sql);
+
+        $stmt->bind_param("si",
+            $operacion,
+            $objeto->identificador
+        );
+
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();  
+        return $resultado;
+
+     }
+     
+     public function listar($bd){
+        $operacion = 'L';
+        
+        $sql = "call gestionarexperticias(?,null,null,null,null)";
+
+        $stmt = $bd->prepare($sql);
+
+        $stmt->bind_param("s",
+            $operacion
+        );
+
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();  
+        return $resultado;
+
+     }
+
+   }
+ 
+
+?>
